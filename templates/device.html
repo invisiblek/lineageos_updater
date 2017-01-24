@@ -13,6 +13,7 @@
                                 <th>Type</th>
                                 <th>Version</th>
                                 <th>File</th>
+                                <th>Size</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
@@ -24,6 +25,7 @@
                                 <td>
                                     <a href="{{rom.url}}">{{rom.filename}}</a> <br /><small>md5sum: {{rom.md5sum}}</small>
                                 </td>
+                                <td>{% if rom.romsize %} {{'%0.2f'| format(rom.romsize/1024/1024|float)}} {% else %} 0.00 {% endif %} MB</td>
                                 <td>{{rom.datetime}}</td>
                             </tr>
                             {% endfor %}
