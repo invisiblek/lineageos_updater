@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from mongoengine import Document, BooleanField, DateTimeField, StringField
+from mongoengine import Document, BooleanField, DateTimeField, StringField, IntField
 
 from datetime import datetime, timedelta
 
@@ -15,6 +15,7 @@ class Rom(Document):
     romtype = StringField(required=True)
     md5sum = StringField(required=True)
     url = StringField()
+    romsize = IntField()
 
     @classmethod
     def get_roms(cls, device, romtype=None, before=3600):
@@ -60,6 +61,7 @@ class Incremental(Document):
     romtype = StringField(required=True)
     md5sum = StringField(required=True)
     url = StringField()
+    romsize = IntField()
     from_incremental = StringField(required=True)
     to_incremental = StringField(required=True)
 

@@ -22,6 +22,7 @@
                                 <th>Type</th>
                                 <th>Version</th>
                                 <th>File</th>
+                                <th>Size</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
@@ -33,6 +34,7 @@
                                 <td>
                                     <a href="{{rom.url}}">{{rom.filename}}</a> <br /><small><a href="{{rom.url}}?sha256">sha256</a> <a href="{{rom.url}}?sha1">sha1</a></small>
                                 </td>
+                                <td>{% if rom.romsize %} {{'%0.2f'| format(rom.romsize/1024/1024|float)}} {% else %} 0.00 {% endif %} MB</td>
                                 <td>{{rom.datetime.strftime("%Y-%m-%d %H:%M:%S %Z")}}</td>
                             </tr>
                             {% endfor %}

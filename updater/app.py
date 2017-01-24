@@ -46,9 +46,10 @@ def api_key_required(f):
 @click.option('--datetime', '-t', 'datetime', required=True)
 @click.option('--romtype', '-r', 'romtype', required=True)
 @click.option('--md5sum', '-m', 'md5sum', required=True)
+@click.option('--size', '-s', 'size', required=True)
 @click.option('--url', '-u', 'url', required=True)
-def addrom(filename, device, version, datetime, romtype, md5sum, url):
-    Rom(filename=filename, datetime=datetime, device=device, version=version, romtype=romtype, md5sum=md5sum, url=url).save()
+def addrom(filename, device, version, datetime, romtype, md5sum, size, url):
+    Rom(filename=filename, datetime=datetime, device=device, version=version, romtype=romtype, md5sum=md5sum, romsize=size, url=url).save()
 
 @app.cli.command()
 @click.option('--filename', '-f', 'filename', required=True)
@@ -165,7 +166,7 @@ def test_auth():
 @api_key_required
 def add_build():
     data = request.get_json()
-    validate = {"filename": "str", "device": "str", "version": "str", "md5sum": "str", "url": "str", "romtype": "str"}
+    validate = {"filename": "str", "device": "str", "version": "str", "md5sum": "str", "url": "str", "romtype": "str", "romsize": "int"}
 
     #bad data sent
     if not data:
