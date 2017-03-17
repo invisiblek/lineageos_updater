@@ -213,7 +213,7 @@ def web_device(device):
 
     active_device = Device.objects(model=device).first()
 
-    return render_template("device.html", active_oem=active_oem, active_device=active_device, oems=oems, devices=devices, roms=roms, get_timestamp=get_timestamp)
+    return render_template("device.html", active_oem=active_oem, active_device=active_device, oems=oems, devices=devices, roms=roms, get_timestamp=get_timestamp, show_extras=app.config['SUPPRESS_EXTRAS'])
 
 @app.route("/extras")
 @cache.cached(timeout=3600)

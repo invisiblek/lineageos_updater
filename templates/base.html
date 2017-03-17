@@ -57,6 +57,7 @@
                         </ul>
                     </li>
                     {% endfor %}
+                    {% if show_extras %}
                     <li class="no-padding">
                         <ul class="collapsible collapsible-accordian">
                             <li class="bold">
@@ -68,6 +69,7 @@
                             </li>
                         </ul>
                     </li>
+                    {% endif %}
                 </ul>
                 <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
             </div>
