@@ -134,5 +134,43 @@ function onScroll() {
     }
 }
 
+function filterDevices(search) {
+    $("#slide-out").children().each(function(vKey, vElem) {
+        if (vKey != 0) {
+            vendor = $(vElem).find("a.collapsible-header").html().toLowerCase();
+            if (search != "" && vendor.indexOf(search) == -1) {
+                any = false;
+                $(vElem).find("div.collapsible-body").find("ul").children().each(function(dKey, dElem) {
+                    device = $(dElem).find("a").html().toLowerCase();
+                    if (device.indexOf(search) == -1) {
+                        $(dElem).hide();
+                    } else {
+                        $(dElem).show();
+                        any = true;
+                    }
+                });
+                if (!any) {
+                    $(vElem).hide();
+                } else {
+                    $(vElem).show();
+                }
+            } else {
+                $(vElem).show();
+            }
+        }
+    });
+}
+
 $(window).scroll(onScroll);
 
+$("#search").on('input', function(e) {
+    searchtext = $("#search").val().toLowerCase();
+
+    if (searchtext.length > 0) {
+      // expand
+    } else {
+      // collapse
+    }
+
+    filterDevices(searchtext);
+});
