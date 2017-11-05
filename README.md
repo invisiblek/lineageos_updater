@@ -70,10 +70,10 @@ Options:
 Example API Calls:
 ---
 Obtaining rom list for a device:<br>
-`GET /api/v1/<device>/<romtype>/<incremental>?after=<utc_timestamp>&version=<14.1>` (incremental can be anything, it is currently unused)<br>
+`GET /api/v1/<device>/<romtype>/<incremental>?after=<utc_timestamp>&version=<14.1>`
 `<device>` - Name of device. Example: `d2vzw`<br>
 `<romtype>` - Type of rom. Example: `nightly`<br>
-`<incremental>` - Caller device's incremental ID (ro.build.incr). Can be anything. <br>
+`<incremental>` - Caller device's incremental ID (ro.build.incr). If any zips are available that updates the given incremental version, those are provided rather than full roms.<br>
 `<after>` - Timestamp for current build on device. (optional) <br> 
 `<romversion>` - Version of rom. Example: `14.1`(optional)<br>
 

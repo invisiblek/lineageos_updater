@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from updater.changelog.gerrit import GerritServer, GerritJSONEncoder
 from updater.changelog import get_changes, get_timestamp
-from updater.database import Rom, ApiKey, Device
+from updater.database import Rom, ApiKey, Device, Incremental
 
 from flask import Flask, jsonify, request, abort, render_template
 from flask_mongoengine import MongoEngine
@@ -100,8 +100,14 @@ def check_builds():
             print("Rom.objects(filename=\"{}\").delete()".format(r.filename))
 
 @cache.memoize(timeout=3600)
-def get_build_types(device, romtype, after, version):
-    roms = Rom.get_roms(device=device, romtype=romtype, before=app.config['BUILD_SYNC_TIME'])
+def get_build_types(device, romtype, after, version, incrementalversion):
+    roms = []
+
+    roms = Incremental.get_incrementals(device=device, romtype=romtype, before=app.config['BUILD_SYNC_TIME'], incremental=incrementalversion)
+
+    if not len(roms):
+        roms = Rom.get_roms(device=device, romtype=romtype, before=app.config['BUILD_SYNC_TIME'])
+
     if after:
         roms = roms(datetime__gt=after)
     if version:
@@ -127,7 +133,7 @@ def index(device, romtype, incrementalversion):
     after = request.args.get("after")
     version = request.args.get("version")
 
-    return get_build_types(device, romtype, after, version)
+    return get_build_types(device, romtype, after, version, incrementalversion)
 
 @app.route('/api/v1/types/<string:device>/')
 @cache.cached(timeout=3600)
