@@ -57,6 +57,26 @@ def delrom(filename):
     Rom.objects(filename=filename).delete()
 
 @app.cli.command()
+@click.option('--filename', '-f', 'filename', required=True)
+@click.option('--device', '-d', 'device', required=True)
+@click.option('--version', '-v', 'version', required=True)
+@click.option('--datetime', '-t', 'datetime', required=True)
+@click.option('--romtype', '-r', 'romtype', required=True)
+@click.option('--md5sum', '-m', 'md5sum', required=True)
+@click.option('--size', '-s', 'size', required=True)
+@click.option('--url', '-u', 'url', required=True)
+@click.option('--from_incremental', '-a', 'from_incremental', required=True)
+@click.option('--to_incremental', '-b', 'to_incremental', required=True)
+def addinc(filename, device, version, datetime, romtype, md5sum, size, url, from_incremental, to_incremental):
+    Incremental(filename=filename, datetime=datetime, device=device, version=version, romtype=romtype, md5sum=md5sum, romsize=size, url=url, from_incremental=from_incremental, to_incremental=to_incremental).save()
+
+@app.cli.command()
+@click.option('--filename', '-f', 'filename', required=True)
+def delinc(filename):
+    Incremental.objects(filename=filename).delete()
+
+
+@app.cli.command()
 @click.option("--comment", 'comment', required=False)
 @click.option("--remove", "remove", default=False)
 @click.option("--print", "echo", flag_value='echo', default=False)
@@ -185,6 +205,38 @@ def add_build():
     rom = Rom(**data)
     rom.save()
     return "ok", 200
+
+
+@app.route('/api/v1/add_incremental', methods=['POST',])
+@api_key_required
+def add_incremental():
+    data = request.get_json()
+    validate = {"filename": "str", "device": "str", "version": "str", "md5sum": "str", "url": "str", "romtype": "str", "romsize": "int", "from_incremental": "str", "to_incremental": "str"}
+
+    #bad data sent
+    if not data:
+        return jsonify(validate), 400
+    #validate keys all exist
+    for key in validate.keys():
+        if key not in data:
+            return jsonify(validate), 406
+
+    # validate types
+    for key in validate.keys():
+        try:
+            locate(validate[key])(data[key])
+        except:
+            return jsonify({"error": "{} must be parseable by python's {} class".format(key, validate[key])}), 406
+    inc = Incremental(**data)
+    inc.save()
+    return "ok", 200
+
+
+@app.route('/api/v1/del_incremental/<string:filename>', methods=['DELETE',])
+@api_key_required
+def del_incremental(filename):
+    Incremental.objects(filename=filename).delete()
+    return '', 200
 
 @app.route('/api/v1/changes/<device>/')
 @app.route('/api/v1/changes/<device>/<int:before>/')
