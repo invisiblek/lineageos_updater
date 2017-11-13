@@ -124,6 +124,7 @@ def get_build_types(device, romtype, after, version, incrementalversion):
             "romtype": rom.romtype,
             "datetime": int(time.mktime(rom.datetime.timetuple())),
             "version": rom.version,
+            "filesize": rom.romsize,
             "filename": rom.filename
         })
     return jsonify({'response': data})
