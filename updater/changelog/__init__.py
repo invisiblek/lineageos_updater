@@ -36,6 +36,8 @@ def is_related_change(gerrit, device, curbranch, project, branch):
         return False
 
     if device not in dependencies:
+        if '/android_kernel_' in project or '/android_device_' in project or '-kernel-' in project:
+            return False
         return True
 
     deps = dependencies[device]
