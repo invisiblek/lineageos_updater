@@ -7,14 +7,6 @@
             <div class="card-panel">
                 <h4>Builds for {{active_device.model}}</h4>
                 <a href="/{{active_device.model}}/changes/">Recent changes</a>
-                {% if wiki_info %}
-                &bull;
-                <a href="{{wiki_info.format(device=active_device.model)}}">Device info</a>
-                {% endif %}
-                {% if wiki_install %}
-                &bull;
-                <a href="{{wiki_install.format(device=active_device.model)}}">Installation instructions</a>
-                {% endif %}
                 <div class="scrollable-table">
                     <table class="striped bordered">
                         <thead>
