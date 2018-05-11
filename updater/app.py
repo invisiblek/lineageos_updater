@@ -48,8 +48,9 @@ def api_key_required(f):
 @click.option('--md5sum', '-m', 'md5sum', required=True)
 @click.option('--size', '-s', 'size', required=True)
 @click.option('--url', '-u', 'url', required=True)
-def addrom(filename, device, version, datetime, romtype, md5sum, size, url):
-    Rom(filename=filename, datetime=datetime, device=device, version=version, romtype=romtype, md5sum=md5sum, romsize=size, url=url).save()
+@click.option('--hasbootimg', '-h', 'hasbootimg', required=False)
+def addrom(filename, device, version, datetime, romtype, md5sum, size, url, hasbootimg):
+    Rom(filename=filename, datetime=datetime, device=device, version=version, romtype=romtype, md5sum=md5sum, romsize=size, url=url, hasbootimg=hasbootimg).save()
 
 @app.cli.command()
 @click.option('--filename', '-f', 'filename', required=True)
@@ -145,6 +146,7 @@ def get_build_types(device, romtype, after, version, incrementalversion):
             "datetime": int(time.mktime(rom.datetime.timetuple())),
             "version": rom.version,
             "size": rom.romsize,
+            "hasbootimg": rom.hasbootimg,
             "filename": rom.filename
         })
     return jsonify({'response': data})
@@ -187,7 +189,7 @@ def test_auth():
 @api_key_required
 def add_build():
     data = request.get_json()
-    validate = {"filename": "str", "device": "str", "version": "str", "md5sum": "str", "url": "str", "romtype": "str", "romsize": "int"}
+    validate = {"filename": "str", "device": "str", "version": "str", "md5sum": "str", "url": "str", "romtype": "str", "romsize": "int", "hasbootimg": "bool"}
 
     #bad data sent
     if not data:

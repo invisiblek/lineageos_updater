@@ -16,6 +16,7 @@ class Rom(Document):
     md5sum = StringField(required=True)
     url = StringField()
     romsize = IntField()
+    hasbootimg = BooleanField(default=False)
 
     @classmethod
     def get_roms(cls, device, romtype=None, before=3600):
