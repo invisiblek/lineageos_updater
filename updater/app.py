@@ -49,8 +49,9 @@ def api_key_required(f):
 @click.option('--size', '-s', 'size', required=True)
 @click.option('--url', '-u', 'url', required=True)
 @click.option('--hasbootimg', '-h', 'hasbootimg', required=False)
-def addrom(filename, device, version, datetime, romtype, md5sum, size, url, hasbootimg):
-    Rom(filename=filename, datetime=datetime, device=device, version=version, romtype=romtype, md5sum=md5sum, romsize=size, url=url, hasbootimg=hasbootimg).save()
+@click.option('--sticky', '-k', 'sticky', required=False)
+def addrom(filename, device, version, datetime, romtype, md5sum, size, url, hasbootimg=False, sticky=False):
+    Rom(filename=filename, datetime=datetime, device=device, version=version, romtype=romtype, md5sum=md5sum, romsize=size, url=url, hasbootimg=hasbootimg, sticky=sticky).save()
 
 @app.cli.command()
 @click.option('--filename', '-f', 'filename', required=True)
@@ -147,6 +148,7 @@ def get_build_types(device, romtype, after, version, incrementalversion):
             "version": rom.version,
             "size": rom.romsize,
             "hasbootimg": rom.hasbootimg,
+            "sticky": rom.sticky,
             "filename": rom.filename
         })
     return jsonify({'response': data})

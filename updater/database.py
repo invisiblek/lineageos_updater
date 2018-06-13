@@ -17,6 +17,7 @@ class Rom(Document):
     url = StringField()
     romsize = IntField()
     hasbootimg = BooleanField(default=False)
+    sticky = BooleanField(default=False)
 
     @classmethod
     def get_roms(cls, device, romtype=None, before=3600):
