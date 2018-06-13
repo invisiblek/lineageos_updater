@@ -24,7 +24,7 @@
                                 <td>{{rom.romtype}}</td>
                                 <td>{{rom.version}}</td>
                                 <td>
-                                    <a href="{{rom.url}}">{{rom.filename}} {% if rom.sticky %}&#x1f4cc; {% endif %}</a> <br /><small>md5sum: {{rom.md5sum}} {% if rom.hasbootimg %} | <a href="{{rom.url + '.boot.img'}}">boot.img</a> {% endif %}</small>
+                                    <a href="{{rom.url}}">{{rom.filename}}</a> {% if rom.sticky %}<span title="This build is pinned and won't be removed automatically when new builds are generated.">&#x1f4cc;</span>{% endif %} <br /><small>md5sum: {{rom.md5sum}} {% if rom.hasbootimg %} | <a href="{{rom.url + '.boot.img'}}">boot.img</a> {% endif %}</small>
                                 </td>
                                 <td>{% if rom.romsize %} {{'%0.2f'| format(rom.romsize/1024/1024|float)}} {% else %} 0.00 {% endif %} MB</td>
                                 <td>{{rom.datetime.strftime("%Y-%m-%d %H:%M:%S %Z")}}</td>
