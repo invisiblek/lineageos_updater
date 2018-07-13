@@ -24,6 +24,7 @@ os.environ['TZ'] = 'UTC'
 app = Flask(__name__)
 app.config.from_pyfile("{}/app.cfg".format(os.getcwd()))
 app.json_encoder = GerritJSONEncoder
+app.url_map.strict_slashes = False
 
 db = MongoEngine(app)
 cache = Cache(app)
