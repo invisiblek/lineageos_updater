@@ -5,6 +5,7 @@ from updater.changelog import get_changes, get_timestamp
 from updater.database import Rom, ApiKey, Device, Incremental
 
 from flask import Flask, jsonify, request, abort, render_template
+from flask_compress import Compress
 from flask_mongoengine import MongoEngine
 from flask_caching import Cache
 from functools import wraps
@@ -22,6 +23,7 @@ import time
 os.environ['TZ'] = 'UTC'
 
 app = Flask(__name__)
+Compress(app)
 app.config.from_pyfile("{}/app.cfg".format(os.getcwd()))
 app.json_encoder = GerritJSONEncoder
 app.url_map.strict_slashes = False
